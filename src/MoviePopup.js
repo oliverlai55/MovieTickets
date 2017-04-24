@@ -1,22 +1,69 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Animated,
   Dimensions,
+  Image,
+  LayoutAnimation,
+  PanResponder,
   StyleSheet,
   Text,
+  TouchableHighlight,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+import { defaultStyles } from './styles';
 
+// get screen dimensions
 const { width, height } = Dimensions.get('window');
+
+//set default pop up height to 67% of screen height
+const defaultHeight = height * 0.67;
 
 export default class MoviePopup extends Component {
 
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    movie: PropTypes.object,     // Movie object that has title, genre, poster, days and times
+    chosenDay: PropTypes.number, //index of chosen day
+    chosenTime: PropTypes.number, // Index of chosen show time
+    onChooseDay: PropTypes.func, //Gets called when user chooses days
+    onChooseTime: PropTypes.func, //Get called when user books their ticket
+    onBook: PropTypes.func,  //Get called when user books their ticket
+    onClose: PropTypes.func, //Gets called when popup closed
+  }
+
   state = {
+    // Animates slide ups and downs when popup open or closed
     position: new Animated.Value(this.props.isOpen ? 0 : height),
-    // height: height/2
+    // Backdrop opacity
+    opacity: new Animated.Value(0),
+    // Popup height that can be changed by pulling it up or downs
+    height: defaultHeight,
+    // Expanded mode with bigger poster flag
+    expanded: false,
+    // visibility flag
     visible: this.props.isOpen
   };
+
+  // When user starts pulling popup previous height gets stored here
+  // to help us calculate new height value during and after pulling
+  _previousHeight = 0
+
+  componentWillMount() {
+    // Initialize PanResponder to handle move gestures
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        const { dx, dy } = gestureState;
+        // Ignore taps
+        if (dx !== 0 && dy === 0) {
+          return true;
+        }
+        return false;
+      },
+      
+    })
+  }
 
   // Handle isOpen changes to either open or close popup
   componentWillReceiveProps(nextProps) {
