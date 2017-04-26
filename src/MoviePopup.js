@@ -268,7 +268,7 @@ export default class MoviePopup extends Component {
           </View>
 
           {/* Footer */}
-          <View style{styles.footer}>
+          <View style={styles.footer}>
             <TouchableHighlight
               underlayColor="#9575CD"
               style={styles.buttonContainer}
@@ -293,12 +293,59 @@ const styles = StyleSheet.create({
   // semi-transparent background below popup
   backdrop: {
     ...StyleSheet.absoluteFillObject, //fill up all screen
-    backgroundColor: 'black',
-    opacity: 0.5
+    backgroundColor: 'black'
   },
   // popup
   modal: {
-    height: height / 2,   // take half of the screen height
     backgroundColor: 'white'
+  },
+  content: {
+    flex: 1,
+    margin: 20,
+    marginBottom: 0
+  },
+  // Movie container
+  movieContainer: {
+    flex: 1,    // take up all available space
+    marginBottom: 20
+  },
+  imageContainer: {
+    flex: 1  // take up all the available space
+  },
+  image: {
+    borderRadius: 10,  // rounded corners
+    ...StyleSheet.absoluteFillObject // fill up all space in a container
+  },
+  movieInfo: {
+    backgroundColor: 'transparent'  // looks nicer when switching to/from expanded mode
+  },
+  title: {
+    ...defaultStyles.text,
+    fontSize: 20
+  },
+  genre: {
+    ...defaultStyles.text,
+    color: '#BBBBBB',
+    fontSize: 14
+  },
+  sectionHeader: {
+    ...defaultStyles.text,
+    color: '#AAAAAA'
+  },
+  // footer
+  footer: {
+    padding: 20
+  },
+  buttonContainer: {
+    backgroundColor: '#673AB7',
+    borderRadius: 100,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center'
+  },
+  button: {
+    ...defaultStyles.text,
+    color: '#FFFFFF',
+    fontSize: 18
   }
 });
