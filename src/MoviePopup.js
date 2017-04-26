@@ -61,7 +61,7 @@ export default class MoviePopup extends Component {
         }
         return false;
       },
-      
+
     })
   }
 
@@ -74,6 +74,7 @@ export default class MoviePopup extends Component {
     // isOpen prop changed to false from true
     else if (this.props.isOpen && !nextProps.isOpen) {
       this.animateClose();
+      
     }
   }
 
