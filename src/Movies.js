@@ -10,7 +10,10 @@ import MoviePopup from './MoviePopup';
 
 export default class Movies extends Component {
   state = {
-    popupIsOpen: false
+    popupIsOpen: false,
+    // Day chosen by user
+    chosenDay: 0,  // choose first day by default
+    chosenTime: null // Time chosen by user
   }
 
   openMovie = (movie) => {
@@ -22,7 +25,22 @@ export default class Movies extends Component {
 
   closeMovie = () => {
     this.setState({
-      popupIsOpen: false
+      popupIsOpen: false,
+      // Reset values to default ones
+      chosenDay: 0,
+      chosenTime: null
+    });
+  }
+
+  chooseDay = (day) => {
+    this.setState({
+      chosenDay: day
+    });
+  }
+
+  chooseTime = (time) => {
+    this.setState({
+      chosenTime: time
     });
   }
 
@@ -44,6 +62,10 @@ export default class Movies extends Component {
           movie={this.state.movie}
           isOpen={this.state.popupIsOpen}
           onClose={this.closeMovie}
+          chosenDay={this.state.chosenDay}
+          chosenTime={this.state.chosenTime}
+          onChooseDay={this.chooseDay}
+          onChooseTime={this.chooseTime}
         />
       </View>
     );
