@@ -49,4 +49,48 @@ export default class Options extends Component {
       duration: 200
     }).start();
   }
+
+  animateDeselect() {
+    Animated.timing(this.state.background, {
+      toValue: 0,
+      duration: 200
+    }).start();
+  }
+
+  render() {
+    const { value, isChosen, onChoose } = this.props;
+    const backgroundColorAnimation = this.state.background.interpolate({
+      inputRange: [0, 100],
+      outputRange: [colorDefault, colorSelected]
+    });
+
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={onChoose}
+      >
+        <Animated.View
+          style={[styles.container, { backgroundColor: backgroundColorAnimation }]}
+        >
+          <Text style={{ color: isChosen ? colorDefault : colorSelected }}>
+            {value}
+          </Text>
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    borderColor: colorSelected,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 10
+  },
+  text: {
+    ...defaultStyles.text
+  }
+});
