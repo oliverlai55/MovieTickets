@@ -10,3 +10,43 @@ import { defaultStyles } from './styles';
 // Colors for smooth transition when user chooses an option
 const colorDefault = 'rgba(255, 255, 255, 1)';
 const colorSelected = 'rgba(103, 58, 183, 1)'; //purple
+
+export default class Options extends Component {
+
+  static propTypes = {
+    // Value to display
+    value: PropTypes.string.isRequired,
+    // whether this value was chosen by user or not
+    isChosen: PropTypes.bool.isRequired,
+    // Gets called when user chooses this value
+    onChoose: PropTypes.func.isRequired
+  }
+
+  state = {
+    // Animate background color change when value gets chosen
+    background: new Animated.Value(0)
+  }
+
+  // Animate option selection if value was already chosen not by a user
+  componentWillMount() {
+    if (this.props.isChosen) {
+      this.animateSelect();
+    }
+  }
+
+  // Handle isChose prop changes
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isChosen && nextProps.isChosen) {
+      this.animateSelect();
+    } else if (this.props.isChosen && !nextProps.isChosen) {
+      this.animateDeselect();
+    }
+  }
+
+  animateSelect() {
+    Animated.timing(this.state.background, {
+      toValue: 100,
+      duration: 200
+    }).start();
+  }
+}
