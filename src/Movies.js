@@ -44,6 +44,22 @@ export default class Movies extends Component {
     });
   }
 
+  bookTicket = () => {
+    // Make sure they selected time
+    if (!this.state.chosenTime) {
+      alert('Please select show time');
+    } else {
+      // Close popup
+      this.closeMovie();
+      // Navigate away to confirmation route
+      this.props.navigator.push({
+        name: 'confirmation',
+        // Generates random string
+        code: Math.random().toString(36).substring(6).toUpperCase()
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -66,6 +82,7 @@ export default class Movies extends Component {
           chosenTime={this.state.chosenTime}
           onChooseDay={this.chooseDay}
           onChooseTime={this.chooseTime}
+          onBook={this.bookTicket}
         />
       </View>
     );
